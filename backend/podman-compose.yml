@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    environment:
+      DATABASE_URL: postgres://myuser:mypassword@postgres:5431/mydb
+    depends_on:
+      - postgres
+    ports:
+      - "3001:3000"
+    restart: always
+
+  ocr-service:
+    build:
+      context: ./ocr-service
+      dockerfile: Dockerfile
+    container_name: ocr-service
+    environment:
+      MONGO_URL: mongodb://admin:password@mongo:27017/cvdb
+    depends_on:
+      - mongo
+    ports:
+      - "3002:3000"
+    restart: always
